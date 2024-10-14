@@ -36,12 +36,15 @@ df.createOrReplaceTempView("home_sales")
 
 
 - Average price by view rating for homes over $350,000:
-<img width="985" alt="Screen Shot 2024-10-14 at 9 17 48 AM" src="https://github.com/user-attachments/assets/1c0a8529-ada3-49c5-b521-4a9403bda2e2">
+<img width="810" alt="Screen Shot 2024-10-14 at 9 25 57 AM" src="https://github.com/user-attachments/assets/c1ff8dae-c2bb-4b4d-8d91-ce7fcfc2df10">
+
 
 4. Caching the Data: The temporary table home_sales is cached for faster query performance
 <img width="543" alt="Screen Shot 2024-10-14 at 9 18 16 AM" src="https://github.com/user-attachments/assets/5200bf3f-401e-4141-8837-14d70a806707">
 
 5. Query Re-run on Cached Data: The query on average price by view rating is rerun on the cached data, and the runtime is measured and compared to the uncached version.
+<img width="871" alt="Screen Shot 2024-10-14 at 9 26 07 AM" src="https://github.com/user-attachments/assets/0868559e-3726-49df-bb73-9eb0f0603ffe">
+
 <img width="840" alt="Screen Shot 2024-10-14 at 9 24 02 AM" src="https://github.com/user-attachments/assets/31801246-9d00-4b9c-b5b0-7f40ef9ed2e1">
 
 
