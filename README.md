@@ -42,13 +42,13 @@ df.createOrReplaceTempView("home_sales")
 <img width="543" alt="Screen Shot 2024-10-14 at 9 18 16 AM" src="https://github.com/user-attachments/assets/5200bf3f-401e-4141-8837-14d70a806707">
 
 5. Query Re-run on Cached Data: The query on average price by view rating is rerun on the cached data, and the runtime is measured and compared to the uncached version.
-<img width="743" alt="Screen Shot 2024-10-14 at 9 19 25 AM" src="https://github.com/user-attachments/assets/f5891acb-efdc-4d64-a82f-b3a952c9648e">
+<img width="840" alt="Screen Shot 2024-10-14 at 9 24 02 AM" src="https://github.com/user-attachments/assets/31801246-9d00-4b9c-b5b0-7f40ef9ed2e1">
+
 
 6. Partitioning and Writing Parquet: The dataset is partitioned by the date_built field and written to Parquet format to improve query performance for future queries.
-<img width="1190" alt="Screen Shot 2024-10-14 at 9 16 57 AM" src="https://github.com/user-attachments/assets/b473730a-301a-46f0-a888-a81ae3da04ef">
 
 7. Uncaching: After the analysis, the home_sales temporary table is uncached and its cached status is verified.
-
+<img width="743" alt="Screen Shot 2024-10-14 at 9 19 25 AM" src="https://github.com/user-attachments/assets/f5891acb-efdc-4d64-a82f-b3a952c9648e">
 ## Running the Notebook
 1. Make sure that you have PySpark installed. You can install it using pip:
 pip install pyspark
