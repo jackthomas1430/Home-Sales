@@ -1,4 +1,4 @@
-# Home Sales Analysis using PySpark
+# Home Sales Analysis
 This project leverages SparkSQL and PySpark to perform analysis on a home sales dataset. The goal is to determine key metrics, including average home prices based on specific criteria, and to work with Spark features such as caching and partitioning for performance optimization.
 
 ## Overview
@@ -8,116 +8,61 @@ In this project, you'll be working with a dataset containing information about h
 - Home_Sales.ipynb: The main Jupyter notebook that contains the PySpark code for data analysis.
 - home_sales_revised.csv: The dataset containing home sales information.
 - Images of the analysis process.
-- Instructions
-- Getting Started
-- Clone the repository to your local machine:
-
-- bash
-- Copy code
-- git clone https://github.com/<your-username>/Home_Sales.git
-- cd Home_Sales
-- Install necessary dependencies for running the PySpark notebook.
+## Instructions
+### Getting Started
+1. Clone the repository to your local machine:
+git clone https://github.com/<your-username>/Home_Sales.git
+cd Home_Sales
+2. Install necessary dependencies for running the PySpark notebook.
 
 ## Data Analysis Steps
-- Data Loading: The home_sales_revised.csv file is loaded into a Spark DataFrame.
-
+1. Data Loading: The home_sales_revised.csv file is loaded into a Spark DataFrame.
 - The dataset contains information on homes, such as sale price, number of bedrooms, bathrooms, square footage, and more.
-- Temporary Table Creation: A temporary SQL view is created from the DataFrame for running SQL queries in Spark.
+<img width="1190" alt="Screen Shot 2024-10-14 at 9 16 57 AM" src="https://github.com/user-attachments/assets/e89b955c-8de9-4cce-87ee-3dcebb5a3526">
 
-- python
-- Copy code
-- df.createOrReplaceTempView("home_sales")
-- SQL Queries: The following queries are performed on the dataset:
+2. Temporary Table Creation: A temporary SQL view is created from the DataFrame for running SQL queries in Spark.
+df.createOrReplaceTempView("home_sales")
 
-Average price of a four-bedroom house sold each year:
+3. SQL Queries: The following queries are performed on the dataset:
 
-This query calculates the average price of a four-bedroom house sold in each year, rounded to two decimal places.
+- Average price of a four-bedroom house sold each year:
+<img width="942" alt="Screen Shot 2024-10-14 at 9 17 22 AM" src="https://github.com/user-attachments/assets/d7ded82d-efa1-43d7-a304-69137a1fffcd">
 
-sql
-Copy code
-SELECT year(date) as year_sold, ROUND(AVG(price), 2) as avg_price
-FROM home_sales
-WHERE bedrooms = 4
-GROUP BY year_sold
-ORDER BY year_sold
-Average price of homes with three bedrooms and three bathrooms:
+- Average price of homes with three bedrooms and three bathrooms:
+<img width="762" alt="Screen Shot 2024-10-14 at 9 17 30 AM" src="https://github.com/user-attachments/assets/4f46f754-84c4-44e7-8b3b-984e4f0b37f7">
 
-Calculates the average price of homes with three bedrooms and three bathrooms for each year they were built.
+- Average price of homes with specific features:
+<img width="856" alt="Screen Shot 2024-10-14 at 9 17 39 AM" src="https://github.com/user-attachments/assets/d8056a74-7225-40ac-9eae-9cb770f2deba">
 
-sql
-Copy code
-SELECT date_built, ROUND(AVG(price), 2) as avg_price
-FROM home_sales
-WHERE bedrooms = 3 AND bathrooms = 3
-GROUP BY date_built
-ORDER BY date_built
-Average price of homes with specific features:
 
-Homes with three bedrooms, three bathrooms, two floors, and at least 2,000 square feet are analyzed for their average price.
+- Average price by view rating for homes over $350,000:
+<img width="985" alt="Screen Shot 2024-10-14 at 9 17 48 AM" src="https://github.com/user-attachments/assets/1c0a8529-ada3-49c5-b521-4a9403bda2e2">
 
-sql
-Copy code
-SELECT date_built, ROUND(AVG(price), 2) as avg_price
-FROM home_sales
-WHERE bedrooms = 3 AND bathrooms = 3 AND floors = 2 AND sqft_living >= 2000
-GROUP BY date_built
-ORDER BY date_built
-Average price by view rating for homes over $350,000:
+4. Caching the Data: The temporary table home_sales is cached for faster query performance
+<img width="543" alt="Screen Shot 2024-10-14 at 9 18 16 AM" src="https://github.com/user-attachments/assets/5200bf3f-401e-4141-8837-14d70a806707">
 
-This query finds the average price of homes with a view rating and a price greater than or equal to $350,000.
+5. Query Re-run on Cached Data: The query on average price by view rating is rerun on the cached data, and the runtime is measured and compared to the uncached version.
+<img width="743" alt="Screen Shot 2024-10-14 at 9 19 25 AM" src="https://github.com/user-attachments/assets/f5891acb-efdc-4d64-a82f-b3a952c9648e">
 
-sql
-Copy code
-SELECT view, ROUND(AVG(price), 2) as avg_price
-FROM home_sales
-WHERE price >= 350000
-GROUP BY view
-ORDER BY avg_price DESC
-Caching the Data: The temporary table home_sales is cached for faster query performance.
+6. Partitioning and Writing Parquet: The dataset is partitioned by the date_built field and written to Parquet format to improve query performance for future queries.
+<img width="1190" alt="Screen Shot 2024-10-14 at 9 16 57 AM" src="https://github.com/user-attachments/assets/b473730a-301a-46f0-a888-a81ae3da04ef">
 
-python
-Copy code
-spark.catalog.cacheTable("home_sales")
-The cached status is checked using spark.catalog.isCached("home_sales").
-Query Re-run on Cached Data: The query on average price by view rating is rerun on the cached data, and the runtime is measured and compared to the uncached version.
+7. Uncaching: After the analysis, the home_sales temporary table is uncached and its cached status is verified.
 
-Partitioning and Writing Parquet: The dataset is partitioned by the date_built field and written to Parquet format to improve query performance for future queries.
-
-python
-Copy code
-df.write.partitionBy("date_built").parquet("path_to_save_parquet")
-Uncaching: After the analysis, the home_sales temporary table is uncached and its cached status is verified.
-
-python
-Copy code
-spark.catalog.uncacheTable("home_sales")
-Requirements
-The project is evaluated based on the following criteria:
-
-A Spark DataFrame is created from the dataset.
-A temporary table of the original DataFrame is created.
-Queries return the average price for:
-Four-bedroom houses sold each year.
-Homes with three bedrooms and three bathrooms for each year built.
-Homes with three bedrooms, three bathrooms, two floors, and over 2,000 square feet for each year built.
-Homes by "view" rating for homes priced over $350,000, with the runtime of the query displayed.
-Caching of the home_sales temporary table is performed and validated.
-Query performance is compared between cached and uncached data.
-The dataset is partitioned by the date_built field and written to Parquet.
-The final query is run on the parquet data and the runtime is measured.
-The home_sales temporary table is uncached and its uncached status is verified.
-Running the Notebook
-Make sure that you have PySpark installed. You can install it using pip:
-
-bash
-Copy code
+## Running the Notebook
+1. Make sure that you have PySpark installed. You can install it using pip:
 pip install pyspark
-Open the Jupyter notebook:
 
-bash
-Copy code
+2. Open the Jupyter notebook:
 jupyter notebook Home_Sales.ipynb
-Run the cells sequentially to complete the analysis.
 
+3. Run the cells sequentially to complete the analysis.
+   
 ## Conclusion
 This project demonstrates the use of PySpark and SparkSQL for analyzing a home sales dataset. By leveraging caching and partitioning, the project optimizes query performance and explores key metrics from the dataset.
+
+## Acknowledgements
+    
+    Xpert Learning Assistant was used to answer detailed questions, and assist in debugging.The starter code provided was the base of the report and was modified using course curriculum and activities to fit the requirements of the assignment. The TA and instructor for the course also assisted in adjusting the code during office hours.For more information about the Xpert Learning Assistant, visit [EdX Xpert Learning Assistant](https://www.edx.org/). 
+
+## References
