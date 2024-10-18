@@ -57,7 +57,7 @@ df.createOrReplaceTempView("home_sales")
 
 
 ## Conclusion
-The results show that partitioning the dataset was the most efficient approach, reducing query time from ~0.95 seconds to  ~0.71 seconds. The cached runtime actually incresed to 1.01 seconds, which suggests that partitioning might provide more substantial performance improvements. 
+The results show that partitioning the dataset was the most efficient approach, reducing query time from ~0.95 seconds to  ~0.70 seconds. The cached runtime actually incresed to 1.9 seconds, which suggests that partitioning might provide more substantial performance improvements. 
 
 ## Acknowledgements
     
