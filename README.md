@@ -1,23 +1,28 @@
 # Home Sales Analysis
-This project leverages SparkSQL and PySpark to perform analysis on a home sales dataset. The goal is to determine key metrics, including average home prices based on specific criteria, and to work with Spark features such as caching and partitioning for performance optimization.
 
 ## Overview
-In this project, you'll be working with a dataset containing information about home sales. Using PySpark, we analyze this data to answer specific queries and optimize performance using Spark features like temporary views, caching, and partitioning.
+This project uses SparkSQL and PySpark to perform analysis on a home sales dataset to determine ther following metrics: 
+- What is the average price for a four-bedroom house sold for each year? Round off your answer to two decimal places.
+- What is the average price of a home for each year the home was built, that has three bedrooms and three bathrooms? Round off your answer to two decimal places.
+- What is the average price of a home for each year the home was built, that has three bedrooms, three bathrooms, two floors, and is greater than or equal to 2,000 square feet? Round off your answer to two decimal places.
+- What is the average price of a home per "view" rating having an average home price greater than or equal to $350,000? Determine the run time for this query, and round off your answer to two decimal places.
 
-## Files Included
-- Home_Sales.ipynb: The main Jupyter notebook that contains the PySpark code for data analysis.
+Spark is then used to create temporary views, partition the data, cache and uncache a temporary table, and verify that the table has been uncached.
+
+## Files 
+- Home_Sales_Colab.ipynb: The main Jupyter notebook that contains the PySpark code for data analysis.
 - home_sales_revised.csv: The dataset containing home sales information.
-- Images of the analysis process.
+
 ## Instructions
 ### Getting Started
 1. Clone the repository to your local machine:
-git clone https://github.com/<your-username>/Home_Sales.git
+git clone https://github.com/jackthomas1430/Home-Sales.git
 cd Home_Sales
-2. Install necessary dependencies for running the PySpark notebook.
-
+2. Open Notebook in Google Collab
+3. Run file
+   
 ## Data Analysis Steps
 1. Data Loading: The home_sales_revised.csv file is loaded into a Spark DataFrame.
-- The dataset contains information on homes, such as sale price, number of bedrooms, bathrooms, square footage, and more.
 <img width="1190" alt="Screen Shot 2024-10-14 at 9 16 57 AM" src="https://github.com/user-attachments/assets/e89b955c-8de9-4cce-87ee-3dcebb5a3526">
 
 2. Temporary Table Creation: A temporary SQL view is created from the DataFrame for running SQL queries in Spark.
@@ -36,33 +41,23 @@ df.createOrReplaceTempView("home_sales")
 
 
 - Average price by view rating for homes over $350,000:
-<img width="810" alt="Screen Shot 2024-10-14 at 9 25 57 AM" src="https://github.com/user-attachments/assets/c1ff8dae-c2bb-4b4d-8d91-ce7fcfc2df10">
-
+<img width="1033" alt="Screen Shot 2024-10-17 at 9 04 21 PM" src="https://github.com/user-attachments/assets/7df9312d-af5b-4a1f-a87e-ed3085557e7e">
 
 4. Caching the Data: The temporary table home_sales is cached for faster query performance
 <img width="543" alt="Screen Shot 2024-10-14 at 9 18 16 AM" src="https://github.com/user-attachments/assets/5200bf3f-401e-4141-8837-14d70a806707">
 
 5. Query Re-run on Cached Data: The query on average price by view rating is rerun on the cached data, and the runtime is measured and compared to the uncached version.
-<img width="871" alt="Screen Shot 2024-10-14 at 9 26 07 AM" src="https://github.com/user-attachments/assets/0868559e-3726-49df-bb73-9eb0f0603ffe">
-
-<img width="840" alt="Screen Shot 2024-10-14 at 9 24 02 AM" src="https://github.com/user-attachments/assets/31801246-9d00-4b9c-b5b0-7f40ef9ed2e1">
-
+<img width="1218" alt="Screen Shot 2024-10-17 at 9 04 11 PM" src="https://github.com/user-attachments/assets/657806d1-9bbf-49e3-9f94-2550e25a8eaa">
 
 6. Partitioning and Writing Parquet: The dataset is partitioned by the date_built field and written to Parquet format to improve query performance for future queries.
+<img width="1260" alt="Screen Shot 2024-10-17 at 9 04 01 PM" src="https://github.com/user-attachments/assets/0f3d94ec-b505-45f1-94d6-2c13c31e37f0">
 
 7. Uncaching: After the analysis, the home_sales temporary table is uncached and its cached status is verified.
-<img width="743" alt="Screen Shot 2024-10-14 at 9 19 25 AM" src="https://github.com/user-attachments/assets/f5891acb-efdc-4d64-a82f-b3a952c9648e">
-## Running the Notebook
-1. Make sure that you have PySpark installed. You can install it using pip:
-pip install pyspark
+<img width="997" alt="Screen Shot 2024-10-17 at 9 16 18 PM" src="https://github.com/user-attachments/assets/36107274-c169-4247-8c38-e36cfa0827c6">
 
-2. Open the Jupyter notebook:
-jupyter notebook Home_Sales.ipynb
 
-3. Run the cells sequentially to complete the analysis.
-   
 ## Conclusion
-This project demonstrates the use of PySpark and SparkSQL for analyzing a home sales dataset. By leveraging caching and partitioning, the project optimizes query performance and explores key metrics from the dataset.
+The results show that partitioning the dataset was the most efficient approach, reducing query time from ~0.95 seconds to  ~0.71 seconds. The cached runtime actually incresed to 1.01 seconds, which suggests that partitioning might provide more substantial performance improvements. 
 
 ## Acknowledgements
     
